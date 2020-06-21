@@ -7,3 +7,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 L.marker([17.267182,-97.680185]).addTo(map)
     .bindPopup('Tlaxiaco Park')
     .openPopup();
+
+$.ajax({
+    dataType: "json",
+    url:"api/bicicletas",
+    success: function(res){
+        console.log(res);
+         res.bicicletas.forEach(element => {
+             L.marker(element.ubicacion,{title: element.id}).addTo(map);
+         });
+    }
+});
