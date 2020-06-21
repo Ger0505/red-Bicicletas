@@ -34,8 +34,8 @@ Bicicleta.removeById = function(id){
     }
 }
 
-var bici1 = new Bicicleta(11,'orange','Max Steel',[17.267097, -97.679583]);
-var bici2 = new Bicicleta(12,'red','Wheels',[17.268542, -97.681246]);
+var bici1 = new Bicicleta(11,'orange','Max Steel',[19.421209, -99.115825]);
+var bici2 = new Bicicleta(12,'red','Wheels',[19.422691, -99.120518]);
 Bicicleta.add(bici1);
 Bicicleta.add(bici2);
 
