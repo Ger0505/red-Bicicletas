@@ -36,3 +36,18 @@ describe("Bicicleta.findById",() =>{
         expect(bici.modelo).toBe(bici2.modelo);
     });
 });
+
+describe("Bicicleta.removeById",() =>{
+    it("borra la bicicleta con el id 11",() =>{
+        expect(Bicicleta.allBicis.length).toBe(0);
+
+        var bici2 = new Bicicleta(11,'red','Min Steel',[19.421209, -99.115825]);
+        var bici3 = new Bicicleta(12,'green','Steel',[19.421209, -99.115825]);
+        Bicicleta.add(bici2);
+        Bicicleta.add(bici3);
+
+        var bici = Bicicleta.removeById(11);
+        expect(Bicicleta.allBicis.length).toBe(1);
+    });
+});
+
