@@ -1,43 +1,46 @@
-var Bicicleta = function (id, color, modelo, ubicacion) {
-    this.id = id;
-    this.color = color;
-    this.modelo = modelo;
-    this.ubicacion = ubicacion;
-}
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-Bicicleta.prototype.toString = function () {
-    return "Id: " + this.id + "|" + "Color: " + this.color; 
-}
-
-Bicicleta.allBicis = [];
-
-Bicicleta.add = function(newBici){
-    Bicicleta.allBicis.push(newBici);
-}
-
-Bicicleta.findById = function(id){
-    var bici = Bicicleta.allBicis.find(x => x.id == id);
-
-    if(bici){
-        return bici;
-    }else{
-        throw new Error(`No existe una bicicleta con el id ${id}`);
+var bicicletaSchema = new Schema({
+    code: Number,
+    color:String,
+    modelo: String,
+    ubicacion:{
+        type: [Number],index:{type: '2dsphere', sparse:true}
     }
-}
+});
 
-Bicicleta.removeById = function(id){
-    for (let i = 0; i < Bicicleta.allBicis.length; i++) {
-       if(Bicicleta.allBicis[i].id == id){
-           Bicicleta.allBicis.splice(i,1);
-           break;
-       }
-    }
-}
+bicicletaSchema.statics.createInstance = function(code, color, modelo, ubicacion){
+    return new this({
+       code:code,
+       color:color,
+       modelo:modelo,
+       ubicacion:ubicacion 
+    });
+};
 
-//var bici1 = new Bicicleta(11,'orange','Max Steel',[19.421209, -99.115825]);
-//var bici2 = new Bicicleta(12,'red','Wheels',[19.422691, -99.120518]);
-// Bicicleta.add(bici1);
-// Bicicleta.add(bici2);
+bicicletaSchema.methods.toString = function () {
+    return "Id: " + this.code + "|" + "Color: " + this.color; 
+};
 
-module.exports = Bicicleta;
+bicicletaSchema.statics.allBicis = function(cb){
+    return this.find({},cb);
+};
 
+bicicletaSchema.statics.add = function(bici,cb){
+    this.create(bici,cb);
+};
+
+bicicletaSchema.statics.findByCode = function(code,cb){
+    return this.findOne({code:code},cb);
+};
+
+bicicletaSchema.statics.updateBici = function(code,bici,cb){
+    this.updateOne({code:code},bici,cb);
+};
+
+bicicletaSchema.statics.removeByCode = function(code,cb){
+    return this.deleteOne({code:code},cb);
+};
+
+module.exports = mongoose.model('Bicicleta',bicicletaSchema);
