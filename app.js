@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('./config/passport');
+var session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var biciRouter = require('./routes/bicicletas');
@@ -11,7 +13,17 @@ var tokenRouter = require('./routes/token');
 var biciAPIRouter = require('./routes/api/bicicletas');
 var usuAPIRouter = require('./routes/api/usuarios');
 
+const store = new session.MemoryStore;
+
 var app = express();
+
+app.use(session({
+  cookie: {maxAge: 240 * 60 * 60 * 1000}, //10 días
+  store: store,
+  saveUninitialized: true,
+  resave: 'true',
+  secret: 'd!f7*df*s4red_bicicletas_ie*fhfy87d¡"'
+}));
 
 var mongoose = require('mongoose');
 
@@ -30,6 +42,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passsport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
