@@ -5,8 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var biciRouter = require('./routes/bicicletas');
+var usuRouter = require('./routes/usuarios');
+var tokenRouter = require('./routes/token');
 var biciAPIRouter = require('./routes/api/bicicletas');
 var usuAPIRouter = require('./routes/api/usuarios');
 
@@ -32,8 +33,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/bicicletas', biciRouter);
+app.use('/usuarios', usuRouter);
+app.use('/token', tokenRouter);
 app.use('/api/bicicletas', biciAPIRouter);
 app.use('/api/usuarios', usuAPIRouter);
 
