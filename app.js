@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('./config/passport');
 var session = require('express-session');
+var MongoDBStore = require('connect-mongodb-session')(session); 
 var jwt = require('jsonwebtoken');
 
 var Usuario = require('./models/usuario');
@@ -19,7 +20,19 @@ var biciAPIRouter = require('./routes/api/bicicletas');
 var usuAPIRouter = require('./routes/api/usuarios');
 var authAPIRouter = require('./routes/api/auth');
 
-const store = new session.MemoryStore;
+let store;
+if(process.env.NODE_DEV === 'development'){
+  store = new session.MemoryStore;
+}else{
+  store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+  });
+  store.on('error',function (error) {
+    assert.ifError(error);
+    assert.ok(false);
+  });
+}
 
 var app = express();
 
@@ -35,9 +48,8 @@ app.use(session({
 
 var mongoose = require('mongoose');
 const usuario = require('./controllers/usuario');
+const { assert } = require('console');
 
-//var mongoDB = 'mongodb://localhost/red_bicicletas';
-//mongodb+srv://admin:<password>@red-bicicletas.drwwo.mongodb.net/<dbname>?retryWrites=true&w=majority
 var mongoDB = process.env.MONGO_URI;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true);
@@ -131,6 +143,7 @@ app.use('/token', tokenRouter);
 app.use('/api/bicicletas',validarUsuario,biciAPIRouter);
 app.use('/api/usuarios', usuAPIRouter);
 app.use('/api/auth', authAPIRouter);
+
 app.use('/privacy_policy',function (req,res) {
   res.sendFile('public/policy_privacy.html' , { root : __dirname});
 });
@@ -138,6 +151,15 @@ app.use('/privacy_policy',function (req,res) {
 app.use('/googlea3af8b7d8f543821',function (req,res) {
   res.sendFile('public/googlea3af8b7d8f543821.html' , { root : __dirname});
 });
+
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile','email'] }));
+
+app.get('/auth/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/error' }),
+  function(req, res) {
+    res.redirect('/');
+  });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
