@@ -135,6 +135,10 @@ app.use('/privacy_policy',function (req,res) {
   res.sendFile('public/policy_privacy.html' , { root : __dirname});
 });
 
+app.use('/googlea3af8b7d8f543821',function (req,res) {
+  res.sendFile('public/googlea3af8b7d8f543821.html' , { root : __dirname});
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
