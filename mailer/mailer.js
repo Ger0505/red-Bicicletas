@@ -18,8 +18,8 @@ if(process.env.NODE_ENV === 'production'){
             }
         }
         mailConfig = sgTransport(options);
-    }else{ // Utilizar Ethereal para correos locales
-        const mailConfig = {
+    }else{
+        mailConfig = {
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
