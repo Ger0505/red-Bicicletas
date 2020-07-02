@@ -32,7 +32,7 @@ function(accessToken, refreshToken, profile, cb) {
 passport.use(new FacebookTokenStrategy({
   clientID: process.env.FACEBOOK_ID,
   clientSecret: process.env.FACEBOOK_SECRET,
-  //fbGraphVersion: 'v3.0'
+  fbGraphVersion: 'v3.0'
 }, function(accessToken, refreshToken, profile, done) {
   try {
     Usuario.findOneOrCreateByFacebook(profile,function (err,user) {
