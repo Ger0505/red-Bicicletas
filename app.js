@@ -20,15 +20,17 @@ var tokenRouter = require('./routes/token');
 var biciAPIRouter = require('./routes/api/bicicletas');
 var usuAPIRouter = require('./routes/api/usuarios');
 var authAPIRouter = require('./routes/api/auth');
+var personAPIRouter = require('./routes/api/persona');
 
 let store;
-if(process.env.NODE_DEV === 'development'){
+if(process.env.NODE_ENV === 'development'){
   store = new session.MemoryStore;
 }else{
   store = new MongoDBStore({
     uri: process.env.MONGO_URI,
     collection: 'sessions'
   });
+
   store.on('error',function (error) {
     assert.ifError(error);
     assert.ok(false);
@@ -144,6 +146,7 @@ app.use('/token', tokenRouter);
 app.use('/api/bicicletas',validarUsuario,biciAPIRouter);
 app.use('/api/usuarios', usuAPIRouter);
 app.use('/api/auth', authAPIRouter);
+app.use('/api/personas',personAPIRouter);
 
 app.use('/privacy_policy',function (req,res) {
   res.sendFile('public/policy_privacy.html' , { root : __dirname});
