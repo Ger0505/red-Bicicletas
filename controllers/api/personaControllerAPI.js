@@ -8,6 +8,18 @@ exports.personas_list = function(req,res){
     });
 };
 
+exports.persona_session = function(req,res){
+    var session = {
+        nombre : req.body.nombre,
+        password: req.body.password
+    }
+    Persona.findOne(session,function (err,persona) {
+        res.status(200).json({
+            persona: persona
+        });
+    })
+};
+
 exports.persona_create = function(req,res){
     var persona = new Persona({
         code:req.body.code,

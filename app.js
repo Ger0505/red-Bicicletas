@@ -21,6 +21,7 @@ var biciAPIRouter = require('./routes/api/bicicletas');
 var usuAPIRouter = require('./routes/api/usuarios');
 var authAPIRouter = require('./routes/api/auth');
 var personAPIRouter = require('./routes/api/persona');
+var mascotaAPIRouter = require('./routes/api/mascota');
 
 let store;
 if(process.env.NODE_ENV === 'development'){
@@ -147,6 +148,7 @@ app.use('/api/bicicletas',validarUsuario,biciAPIRouter);
 app.use('/api/usuarios', usuAPIRouter);
 app.use('/api/auth', authAPIRouter);
 app.use('/api/personas',personAPIRouter);
+app.use('/api/mascotas',mascotaAPIRouter);
 
 app.use('/privacy_policy',function (req,res) {
   res.sendFile('public/policy_privacy.html' , { root : __dirname});
