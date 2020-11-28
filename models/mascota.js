@@ -24,15 +24,18 @@ var mascotaSchema = new Schema({
         required: [true, "El tipo es obligario"]
     },
     sexo:{
-        type: Number,
+        type: String,
+        trim:true,
         required: [true, "El sexo es obligatorio"]
     },
     puesto:{
-        type: Number,
+        type: String,
+        trim:true,
         required: [true, "El sexo es obligatorio"]
     },
     tamanio:{
-        type: Number,
+        type: String,
+        trim:true,
         required: [true, "El tamaño es obligatorio"]
     },
     imagen:{

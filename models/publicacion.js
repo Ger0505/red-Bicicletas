@@ -9,6 +9,11 @@ var publicacionSchema = new Schema({
     },
     persona: {type: mongoose.Schema.Types.ObjectId, ref: 'Persona'},
     mascota: {type: mongoose.Schema.Types.ObjectId, ref: 'Mascota'},
+    solicitud: {
+        type: String,
+        trim:true,
+        required: [true, "La solicitud es obligatoria"]
+    },
     latitud: {
         type: Number,
         required: [true, "La latitud es obligatoria"]
@@ -16,10 +21,6 @@ var publicacionSchema = new Schema({
     longitud: {
         type: Number,
         required: [true, "La longitud es obligatorio"]
-    },
-    tipo:{
-        type: Number,
-        required: [true, "El tipo es obligatorio"]
     },
     fecha:{
         type: String,

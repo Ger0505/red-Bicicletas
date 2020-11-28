@@ -20,6 +20,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.27.0",
     "mongoose": "^5.9.20",
+    "mongoose-auto-increment": "^5.0.1",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "~1.9.1",
     "newrelic": "^6.10.0",

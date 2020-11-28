@@ -22,6 +22,7 @@ var usuAPIRouter = require('./routes/api/usuarios');
 var authAPIRouter = require('./routes/api/auth');
 var personAPIRouter = require('./routes/api/persona');
 var mascotaAPIRouter = require('./routes/api/mascota');
+var publicacionAPIRouter = require('./routes/api/publicacion');
 
 let store;
 if(process.env.NODE_ENV === 'development'){
@@ -149,6 +150,7 @@ app.use('/api/usuarios', usuAPIRouter);
 app.use('/api/auth', authAPIRouter);
 app.use('/api/personas',personAPIRouter);
 app.use('/api/mascotas',mascotaAPIRouter);
+app.use('/api/publicaciones',publicacionAPIRouter);
 
 app.use('/privacy_policy',function (req,res) {
   res.sendFile('public/policy_privacy.html' , { root : __dirname});
