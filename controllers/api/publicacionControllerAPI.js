@@ -74,7 +74,7 @@ exports.publicacion_delete = function (req, res) {
 exports.publicacion_comments = function(req,res){
     Publicacion.findByCode(req.params.code,function(err,pub){
         if(err) res.status(500).json(err);
-        Comentario.find({publicacion: pub._id},function(err,comentarios){
+        Comentario.find({publicacion: pub._id},null,{sort:{code:"desc"}},function(err,comentarios){ // Donde está null poner los campos regresar ["descripcion","fecha"]
             if(err) res.status(500).json(err);
             Persona.populate(comentarios,{path: "persona", select:"nombre"},function(err,comentarios){
                 res.status(200).json({
