@@ -1,4 +1,5 @@
 var Persona = require('../../models/persona');
+const Publicacion = require('../../models/publicacion');
 
 exports.personas_list = function(req,res){
     Persona.find({},function(err,personas){
@@ -57,10 +58,15 @@ exports.persona_update = function (req, res) {
 }
 
 exports.persona_delete = function (req, res) {
-    Persona.deleteOne({code: req.params.code},function(err,oldPerson){
-        if(err) console.log(err);
-        res.status(200).json({
-            result: oldPerson
-        }); 
-    });
+    Persona.findByCode(req.params.code,function(err,persona){
+        if(err) res.status(500).json(err);
+        persona.deleteComentarios();
+        persona.deletePublicaciones();
+        Persona.deleteOne({code: req.params.code},function(err,oldPerson){
+            if(err) console.log(err);
+            res.status(200).json({
+                result: oldPerson
+            }); 
+        });
+    })
 }

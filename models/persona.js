@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-
+var Comentario = require('./comentario');
+var Publicacion = require('./publicacion');
 var Schema = mongoose.Schema;
 
 var personaSchema = new Schema({
@@ -31,6 +32,18 @@ var personaSchema = new Schema({
 
 personaSchema.statics.findByCode = function(code,cb){
     return this.findOne({code:code},cb);
+};
+
+personaSchema.methods.deleteComentarios = function () {
+    Comentario.deleteMany({persona: this._id}, function(err,data){
+        console.log("Elimados todos los comentarios...");
+    });    
+};
+
+personaSchema.methods.deletePublicaciones = function () {
+    Publicacion.deleteMany({persona: this._id}, function(err,data){
+        console.log("Elimados todos los comentarios...");
+    });    
 };
 
 module.exports = mongoose.model('Persona',personaSchema);
