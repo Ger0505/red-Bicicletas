@@ -5,7 +5,7 @@ var publicacionController = require('../../controllers/api/publicacionController
 router.get('/:tipo',publicacionController.publicacions_list);
 router.get('/:code', publicacionController.publicacion_get);
 router.get('/:code/comments', publicacionController.publicacion_comments);
-router.get('/:sol/:codep', publicacionController.publicacions_list_user);
+router.get('/:codep/pubs', publicacionController.publicacions_list_user);
 router.post('/create',publicacionController.publicacion_create);
 router.post('/addcomment', publicacionController.publicacion_addcomment);
 router.delete('/:code/delete',publicacionController.publicacion_delete);

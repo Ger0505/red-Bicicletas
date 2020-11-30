@@ -18,7 +18,7 @@ exports.publicacions_list = function(req,res){
 exports.publicacions_list_user = function(req,res){
     Persona.findByCode(req.params.codep,function(err,persona){
         if(err) res.status(500).json(err);
-        Publicacion.find({persona: persona._id,solicitud:req.params.sol},function(err,publicacions){
+        Publicacion.find({persona: persona._id},function(err,publicacions){
             Mascota.populate(publicacions,{path: "mascota"},function (err,publicacions) {
                 Persona.populate(publicacions,{path: "persona", select: "code telefono"},function(err,publicacions){
                     res.status(200).json({
