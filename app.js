@@ -9,6 +9,7 @@ var passport = require('./config/passport');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session); 
 var jwt = require('jsonwebtoken');
+var bodyParser = require('body-parser');
 
 var Usuario = require('./models/usuario');
 var Token = require('./models/token');
@@ -20,6 +21,7 @@ var tokenRouter = require('./routes/token');
 var biciAPIRouter = require('./routes/api/bicicletas');
 var usuAPIRouter = require('./routes/api/usuarios');
 var authAPIRouter = require('./routes/api/auth');
+// Mascotas
 var personAPIRouter = require('./routes/api/persona');
 var mascotaAPIRouter = require('./routes/api/mascota');
 var publicacionAPIRouter = require('./routes/api/publicacion');
@@ -40,7 +42,7 @@ if(process.env.NODE_ENV === 'development'){
 }
 
 var app = express();
-
+app.use(bodyParser.json({limit: '100mb'}));
 app.set('secretKey','jwt_pwd_¿¿?-?5*43');
 
 app.use(session({
@@ -148,6 +150,7 @@ app.use('/token', tokenRouter);
 app.use('/api/bicicletas',validarUsuario,biciAPIRouter);
 app.use('/api/usuarios', usuAPIRouter);
 app.use('/api/auth', authAPIRouter);
+// Mascotas
 app.use('/api/personas',personAPIRouter);
 app.use('/api/mascotas',mascotaAPIRouter);
 app.use('/api/publicaciones',publicacionAPIRouter);
